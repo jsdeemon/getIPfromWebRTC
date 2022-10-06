@@ -1,1 +1,23 @@
 # getIPfromWebRTC
+```javascript
+window.oRTCPeerConnection  = window.oRTCPeerConnection || window.RTCPeerConnection
+
+window.RTCPeerConnection = function(...args) {
+ const pc = new window.oRTCPeerConnection(...args)
+
+pc.oaddIceCandidate = pc.addIceCandidate
+
+pc.addIceCandidate = function(iceCandidate, ...rest) {
+ const fields = iceCandidate.candidate.split(' ')
+
+if (fields[7] === 'srflx') {
+console.log('IP Address:', fields[4])
+}
+return pc.oaddIceCandidate(iceCandidate, ...rest)
+
+}
+
+return pc
+} 
+``` 
+past this code in console in Omegle.com or any such websites
